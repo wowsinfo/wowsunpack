@@ -1,0 +1,9 @@
+# ignore raw data
+GameParams.data
+
+# python files
+__pycache__
+
+# ignore outputs
+GameParam*.json
+split
