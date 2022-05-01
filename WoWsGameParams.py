@@ -18,15 +18,18 @@ class GPEncode(json.JSONEncoder):
 
 
 class WoWsGameParams:
+    _subdir: str = 'split'
+
     def __init__(self, path: str):
         self.path = path
 
-    def _mkdir(self, subdir):
-        if not os.path.exists(subdir):
-            os.makedirs(subdir)
+    def _mkdir(self, directory: str):
+        if not os.path.exists(directory):
+            os.makedirs(directory)
 
     def _writejson(self, _key, _value, index):
-        typedir = subdir + os.sep + \
+        # note: _subdir is a global
+        typedir = self._subdir + os.sep + \
             str(index) + os.sep + _value['typeinfo']['type']
         self._mkdir(typedir)
 
@@ -35,6 +38,9 @@ class WoWsGameParams:
                       indent=4, separators=(',', ': '))
 
     def _readRawData(self):
+        '''
+        Reads the raw data from the file and returns it as an object
+        '''
         with open(self.path, 'rb') as f:
             gpd = f.read()
         gpd = struct.pack('B' * len(gpd), *gpd[::-1])
@@ -43,7 +49,11 @@ class WoWsGameParams:
         return gpd
 
     def decode(self):
+        '''
+        Decodes the game params file and writes it to a json file
+        '''
         gpd = self._readRawData()
+
         for index, elem in enumerate(gpd):
             if not isinstance(elem, dict):
                 continue
@@ -53,10 +63,12 @@ class WoWsGameParams:
                           indent=4, separators=(',', ': '))
 
     def split(self):
+        '''
+        Decode the game params file and split it into multiple directories
+        '''
         gpd = self._readRawData()
 
-        subdir = 'split'
-        self._mkdir(subdir)
+        self._mkdir(self._subdir)
 
         for index, elem in enumerate(gpd):
             if not isinstance(elem, dict):
@@ -66,8 +78,8 @@ class WoWsGameParams:
             elemjson = json.loads(elemjson)
 
             with ThreadPoolExecutor() as tpe:
-                tpe.map(lambda p: writejson(*p), [(k, v, index)
-                        for k, v in elemjson.items()])
+                tpe.map(lambda p: self._writejson(*p),
+                        [(k, v, index) for k, v in elemjson.items()])
 
 
 if __name__ == '__main__':
