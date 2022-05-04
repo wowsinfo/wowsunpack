@@ -87,4 +87,4 @@ class WoWsGameParams:
 if __name__ == '__main__':
     gp = WoWsGameParams('GameParams.data')
     gp.decode()
-    gp.split()
+    # gp.split()
