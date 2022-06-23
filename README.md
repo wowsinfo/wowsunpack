@@ -1,7 +1,19 @@
 # WoWs Game Params
 [![License](https://img.shields.io/github/license/WoWs-Info/wows_gameparams)](./LICENSE)
 
-Based on [EdibleBug/WoWS-GameParams](https://github.com/EdibleBug/WoWS-GameParams), this fork uses `wowsunpack.exe` to extract `GameParams.data` before unpacking to `GameParams.json`. 
+Based on [EdibleBug/WoWS-GameParams](https://github.com/EdibleBug/WoWS-GameParams), this fork uses `wowsunpack.exe` to extract `GameParams.data` before unpacking to `GameParams.json`.
+
+## Optional features
+- Unpack game languages
+- Unpack game maps
+- Unpack game icons
+
+## Setup
+- Use Python 3 and `python3 -m venv .env` to create a virtual environment
+- Install dependencies with `pip install -r requirements.txt`
+- Run `python3 run.py`
+- Paste the game path into `game.path`
+- Run `python3 run.py` again to unpack
 
 # World of Warships GameParams to JSON
 [![License](https://img.shields.io/github/license/EdibleBug/WoWS-GameParams)](https://github.com/EdibleBug/WoWS-GameParams/blob/master/LICENSE)
