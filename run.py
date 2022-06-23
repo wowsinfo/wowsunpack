@@ -1,5 +1,5 @@
 import os
-from src.unpack import WoWsUnpack
+from unpack import WoWsUnpack
 
 if __name__ == "__main__":
     print("Make sure the game path is valid!")

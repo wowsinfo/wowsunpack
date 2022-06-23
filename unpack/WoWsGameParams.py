@@ -6,7 +6,6 @@ import os
 import sys
 import shutil
 from concurrent.futures import ThreadPoolExecutor
-sys.path.append('wows_gameparams')
 
 
 class GPEncode(json.JSONEncoder):
