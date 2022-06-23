@@ -1,10 +1,15 @@
+# WoWs Game Params
+[![License](https://img.shields.io/github/license/WoWs-Info/wows_gameparams)](./LICENSE)
+
+Based on [EdibleBug/WoWS-GameParams](https://github.com/EdibleBug/WoWS-GameParams), this fork uses `wowsunpack.exe` to extract `GameParams.data` before unpacking to `GameParams.json`. 
+
 # World of Warships GameParams to JSON
-[![License](https://img.shields.io/github/license/EdibleBug/WoWS-GameParams)](./LICENSE)
+[![License](https://img.shields.io/github/license/EdibleBug/WoWS-GameParams)](https://github.com/EdibleBug/WoWS-GameParams/blob/master/LICENSE)
 
 ## Legal Notice and License
 I acknowledge and agree to the rights and Terms of Use (ToS) provided by [Wargaming.net (WG)](https://wargaming.com/). Any users wishing to use the code or WoWSFT must also acknowledge and agree to the rights and ToS underlined by WG. I am not held responsible for any issues or problems that may occur related to using WoWSFT and/or provided codes.
 
-Any codes and materials created by me are under [MIT License](./LICENSE).
+Any codes and materials created by me are under [MIT License](https://github.com/EdibleBug/WoWS-GameParams/blob/master/LICENSE).
 
 ## Instruction
 1. Use Python 3.
