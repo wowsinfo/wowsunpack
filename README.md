@@ -15,6 +15,8 @@ Based on [EdibleBug/WoWS-GameParams](https://github.com/EdibleBug/WoWS-GameParam
 - Paste the game path into `game.path`
 - Run `python3 run.py` again to unpack
 
+***
+
 # World of Warships GameParams to JSON
 [![License](https://img.shields.io/github/license/EdibleBug/WoWS-GameParams)](https://github.com/EdibleBug/WoWS-GameParams/blob/master/LICENSE)
 
