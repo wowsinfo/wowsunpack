@@ -1,5 +1,5 @@
-# WoWs Game Params
-[![License](https://img.shields.io/github/license/WoWs-Info/wows_gameparams)](./LICENSE)
+# WoWs Unpack
+[![License](https://img.shields.io/github/license/WoWs-Info/wows_unpack)](./LICENSE)
 
 Based on [EdibleBug/WoWS-GameParams](https://github.com/EdibleBug/WoWS-GameParams), this fork uses `wowsunpack.exe` to extract `GameParams.data` before unpacking to `GameParams.json`.
 
