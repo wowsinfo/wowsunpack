@@ -1,4 +1,4 @@
-# WoWs Unpack
+# WoWsUnpack
 [![License](https://img.shields.io/github/license/WoWs-Info/wows_unpack)](./LICENSE)
 
 Based on [EdibleBug/WoWS-GameParams](https://github.com/EdibleBug/WoWS-GameParams), this fork uses `wowsunpack.exe` to extract `GameParams.data` before unpacking to `GameParams.json`.
@@ -14,6 +14,14 @@ Based on [EdibleBug/WoWS-GameParams](https://github.com/EdibleBug/WoWS-GameParam
 - Run `python3 run.py`
 - Paste the game path into `game.path`
 - Run `python3 run.py` again to unpack
+
+## Use without Python
+- Download the latest binary
+- Double click on `run.exe`
+- Paste the game path into `game.path`
+- Double click on `run.exe` again to unpack
+
+Windows may scan `run.exe` only for the first time. The binary is built with `pyinstaller`. `WoWsUnpack` is not responsible for anything if `pyinstaller` injects any malicious code while generating the binary. Please use the binary at your own risk.
 
 ## Distribution
 - Install `pyinstaller` following [this guide](https://pyinstaller.org/en/stable/index.html)
