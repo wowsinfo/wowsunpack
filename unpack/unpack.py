@@ -4,8 +4,7 @@ import shutil
 import pathlib
 import os
 import sys
-from unpack.WoWsGameParams import WoWsGameParams
-
+from WoWsGameParams import WoWsGameParams
 
 class WoWsUnpack:
     def __init__(self, path):

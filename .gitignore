@@ -12,3 +12,8 @@ content/
 # environment
 .env/
 game.path
+
+# pyinstaller
+dist/
+build/
+*.spec

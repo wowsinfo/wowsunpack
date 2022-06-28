@@ -15,6 +15,12 @@ Based on [EdibleBug/WoWS-GameParams](https://github.com/EdibleBug/WoWS-GameParam
 - Paste the game path into `game.path`
 - Run `python3 run.py` again to unpack
 
+## Distribution
+- Install `pyinstaller` following [this guide](https://pyinstaller.org/en/stable/index.html)
+- Run `pyinstaller  --onefile .\run.py -p .\unpack\ --hidden-import GameParams`
+- Copy `wowsunpack.exe` to `dist/`
+- Ready to go!
+
 ***
 
 # World of Warships GameParams to JSON
