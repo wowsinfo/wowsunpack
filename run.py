@@ -9,7 +9,7 @@ if __name__ == "__main__":
 
     if os.path.exists('game.path'):
         with open('game.path', 'r') as f:
-            path = f.read()
+            path = f.read().strip()
         unpack = WoWsUnpack(path)
 
         try:
