@@ -23,7 +23,7 @@ if __name__ == "__main__":
             unpack.decodeGameParams()
 
             # optional actions
-            # unpack.decodeLanguages()
+            unpack.decodeLanguages()
             # unpack.unpackGameIcons()
             # unpack.unpackGameMaps()
         except FileNotFoundError:
