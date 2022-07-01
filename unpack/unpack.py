@@ -14,10 +14,14 @@ class WoWsUnpack:
         """
         Finds the latest folder in the bin folder
         """
-        bin_folders = os.listdir("{}/bin".format(self.path))
+        bin_path = "{}/bin".format(self.path)
+        bin_folders = os.listdir(bin_path)
         if (len(bin_folders) == 0):
             raise ValidationError("Nothing inside bin folder")
+        # remove all files in bin folder and make sure folders are all numbers
+        bin_folders = [f for f in bin_folders if os.path.isdir(bin_path + '/' + f) and f.isdigit()]
         bin_folders.sort()
+
         return bin_folders[-1]
 
     def _wowsunpack(self, list: bool = False) -> str:
