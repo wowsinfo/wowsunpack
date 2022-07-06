@@ -1,1 +1,2 @@
 gnu-mo-files
+pyinstaller
