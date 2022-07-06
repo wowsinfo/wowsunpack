@@ -9,6 +9,9 @@ GameParam*.json
 split
 content/
 langs/
+gui/
+spaces/
+assets/
 
 # environment
 .env/

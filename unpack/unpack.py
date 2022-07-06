@@ -100,13 +100,12 @@ class WoWsUnpack:
             shutil.rmtree(dirname)
         os.mkdir(dirname)
 
-    def packAppAssets(self):
+    def packAppAssets(self, output_path='../app/assets'):
         """
         Packs assets for WoWs Info
         """
         gui_path = 'gui'
         # TODO: to be updated when finalised
-        output_path = '../app/assets'
         self._resetDir(output_path)
         if not os.path.exists(gui_path):
             raise FileNotFoundError("gui folder not found")
