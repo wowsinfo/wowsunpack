@@ -15,8 +15,9 @@ if __name__ == '__main__':
     _resetDir('dist\WoWsUnpack')
     shutil.copy('wowsunpack.exe', 'dist\WoWsUnpack\wowsunpack.exe')
     # copy LICENSE and README.md as well
-    shutil.copy('LICENSE', 'dist\WoWsUnpack\LICENSE')
-    shutil.copy('README.md', 'dist\WoWsUnpack\README.md')
+    shutil.copy('LICENSE', 'dist\WoWsUnpack\LICENSE.txt')
+    shutil.copy('README.md', 'dist\WoWsUnpack\README.txt')
+    shutil.copy('README-zh.md', 'dist\WoWsUnpack\README-zh.txt')
     shutil.move('dist/run.exe', 'dist/WoWsUnpack/run.exe')
 
     # create zip file from WoWsUnpack folder with compression

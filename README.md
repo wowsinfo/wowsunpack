@@ -3,10 +3,13 @@
 
 Based on [EdibleBug/WoWS-GameParams](https://github.com/EdibleBug/WoWS-GameParams), this fork uses `wowsunpack.exe` to extract `GameParams.data` before unpacking to `GameParams.json`.
 
+[中文版本](./README-zh.md)
+
 ## Optional features
-- Unpack game languages
+- Decode game languages
 - Unpack game maps
 - Unpack game icons
+- Pack game assets
 
 ## Setup
 - Use Python 3 and `python3 -m venv .env` to create a virtual environment
@@ -22,6 +25,14 @@ Based on [EdibleBug/WoWS-GameParams](https://github.com/EdibleBug/WoWS-GameParam
 - Double click on `run.exe` again to unpack
 
 Windows may scan `run.exe` only for the first time. The binary is built with `pyinstaller`. `WoWsUnpack` is not responsible for anything if `pyinstaller` injects any malicious code while generating the binary. Please use the binary at your own risk.
+
+## Arguments
+- `--lang`: Decode game languages
+- `--maps`: Unpack game maps
+- `--icons`: Unpack all game icons
+- `--assets`: Pack game assets into folders
+
+Any other arguments are not valid. The program will exit with error code 1. Call the program like `./run.exe --lang` from the terminal. Double clicking will not pass in any arguments.
 
 ## Distribution
 - Install `pyinstaller` following [this guide](https://pyinstaller.org/en/stable/index.html)
