@@ -165,23 +165,23 @@ class WoWsUnpack:
 
         # CAMOUFLAGES
         self._resetDir(output_path + '/camouflages')
-        for camouflage in os.listdir(gui_path + '/camouflages'):
+        for camouflage in os.listdir(gui_path + '/exteriors/camouflages'):
             if not camouflage.startswith('PCEC'):
                 continue
             if '_des.png' in camouflage:
                 continue
             shutil.copy(
-                gui_path + '/camouflages/' + camouflage,
+                gui_path + '/exteriors/camouflages/' + camouflage,
                 output_path + '/camouflages/' + camouflage,
             )
 
         # PERMOFLAGES
         self._resetDir(output_path + '/permoflages')
-        for permoflage in os.listdir(gui_path + '/permoflages'):
+        for permoflage in os.listdir(gui_path + '/exteriors/permoflages'):
             if '_des.png' in permoflage:
                 continue
             shutil.copy(
-                gui_path + '/permoflages/' + permoflage,
+                gui_path + '/exteriors/permoflages/' + permoflage,
                 output_path + '/permoflages/' + permoflage,
             )
 
