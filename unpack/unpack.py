@@ -9,6 +9,9 @@ from WoWsGameParams import WoWsGameParams
 class WoWsUnpack:
     def __init__(self, path):
         self.path = path
+        # make sure wowsunpack.exe if available
+        if not os.path.exists('wowsunpack.exe'):
+            raise FileNotFoundError("wowsunpack.exe not found")
 
     def _findLatestBinFolder(self):
         """
