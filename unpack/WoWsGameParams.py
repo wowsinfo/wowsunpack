@@ -6,6 +6,16 @@ import os
 import sys
 import shutil
 from concurrent.futures import ThreadPoolExecutor
+from types import ModuleType
+
+
+# Add GameParams module to sys.modules
+class GameParams(ModuleType):
+    class TypeInfo(object): pass
+    class GPData(object): pass
+    class GameParams: pass
+    class UIParams: pass
+sys.modules[GameParams.__name__] = GameParams(GameParams.__name__)
 
 
 class GPEncode(json.JSONEncoder):
