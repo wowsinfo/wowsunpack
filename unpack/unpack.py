@@ -5,12 +5,21 @@ import pathlib
 import os
 import sys
 from WoWsGameParams import WoWsGameParams
+from pathlib import Path
 
 class WoWsUnpack:
+    _unpack_path: str = 'wowsunpack.exe'
+
     def __init__(self, path):
         self.path = path
+
+        # fix the path issue for wowsunpack
+        if getattr(sys, 'frozen', False):
+            self._unpack_path = str(Path(sys._MEIPASS)) + '/wowsunpack.exe'
+            # print("unpack path: " + self._unpack_path)
+
         # make sure wowsunpack.exe if available
-        if not os.path.exists('wowsunpack.exe'):
+        if not os.path.exists(self._unpack_path):
             raise FileNotFoundError("wowsunpack.exe not found")
 
     def _findLatestBinFolder(self):
@@ -31,7 +40,7 @@ class WoWsUnpack:
         latest_bin = self._findLatestBinFolder()
         print("Latest bin folder: " + latest_bin)
         flag = '-l' if list else '-x'
-        return 'wowsunpack.exe {} {}/bin/{}/idx -p ../../../res_packages'.format(flag, self.path, latest_bin)
+        return '{} {} {}/bin/{}/idx -p ../../../res_packages'.format(self._unpack_path, flag, self.path, latest_bin)
 
     def writeContentList(self):
         """

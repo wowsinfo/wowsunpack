@@ -20,11 +20,11 @@ Based on [EdibleBug/WoWS-GameParams](https://github.com/EdibleBug/WoWS-GameParam
 
 ## Use without Python
 - Download the latest binary
-- Double click on `run.exe`
+- Double click on `unpack.exe`
 - Paste the game path into `game.path`
-- Double click on `run.exe` again to unpack
+- Double click on `unpack.exe` again to unpack
 
-Windows may scan `run.exe` only for the first time. The binary is built with `pyinstaller`. `WoWsUnpack` is not responsible for anything if `pyinstaller` injects any malicious code while generating the binary. Please use the binary at your own risk.
+Windows may scan `unpack.exe` only for the first time. The binary is built with `pyinstaller`. `WoWsUnpack` is not responsible for anything if `pyinstaller` injects any malicious code while generating the binary. Please use the binary at your own risk.
 
 ## Arguments
 - `--lang`: Decode game languages
@@ -32,7 +32,7 @@ Windows may scan `run.exe` only for the first time. The binary is built with `py
 - `--icons`: Unpack all game icons
 - `--assets`: Pack game assets into folders
 
-Any other arguments are not valid. The program will exit with error code 1. Call the program like `./run.exe --lang` from the terminal. Double clicking will not pass in any arguments.
+Any other arguments are not valid. The program will exit with error code 1. Call the program like `./unpack.exe --lang` from the terminal. Double clicking will not pass in any arguments.
 
 ## Distribution
 - Install `pyinstaller` following [this guide](https://pyinstaller.org/en/stable/index.html)
