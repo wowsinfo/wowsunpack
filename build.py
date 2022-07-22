@@ -24,5 +24,6 @@ if __name__ == '__main__':
     with zipfile.ZipFile('dist/WoWsUnpack.zip', 'w', zipfile.ZIP_DEFLATED) as zip_file:
         for root, dirs, files in os.walk('dist/WoWsUnpack'):
             for file in files:
-                zip_file.write(os.path.join(root, file))
+                # remove dist/ folder
+                zip_file.write(os.path.join(root, file), arcname=os.path.join(root[len('dist/'):], file))
     print('complete')
