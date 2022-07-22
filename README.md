@@ -3,7 +3,7 @@
 
 Based on [EdibleBug/WoWS-GameParams](https://github.com/EdibleBug/WoWS-GameParams), this fork uses `wowsunpack.exe` to extract `GameParams.data` before unpacking to `GameParams.json`.
 
-[中文版本](./README-zh.md)
+[中文版本](./使用说明.md)
 
 ## Optional features
 - Decode game languages
