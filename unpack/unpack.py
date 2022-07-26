@@ -198,6 +198,8 @@ class WoWsUnpack:
         self._resetDir(output_path + '/skills')
         for skill in os.listdir(gui_path + '/crew_commander/skills'):
             formatted_name = ''.join([x.title() for x in skill.split('_')])
+            # make sure the format is not Png but png, this is causing some issues on web
+            formatted_name = formatted_name.replace('.Png', '.png')
             shutil.copy(
                 gui_path + '/crew_commander/skills/' + skill,
                 output_path + '/skills/' + formatted_name,
