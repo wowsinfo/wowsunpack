@@ -1,4 +1,3 @@
-import struct
 import zlib
 import pickle
 import json
@@ -13,8 +12,8 @@ from types import ModuleType
 class GameParams(ModuleType):
     class TypeInfo(object): pass
     class GPData(object): pass
-    class GameParams: pass
-    class UIParams: pass
+    # class GameParams: pass
+    # class UIParams: pass
 sys.modules[GameParams.__name__] = GameParams(GameParams.__name__)
 
 
@@ -53,8 +52,9 @@ class WoWsGameParams:
         Reads the raw data from the file and returns it as an object
         '''
         with open(self.path, 'rb') as f:
-            gpd = f.read()
-        gpd = struct.pack('B' * len(gpd), *gpd[::-1])
+            gpd = f.read()[::-1]
+        # is this necessary? Windows is little endian
+        # gpd = struct.pack('B' * len(gpd), *gpd[::-1])
         gpd = zlib.decompress(gpd)
         gpd = pickle.loads(gpd, encoding='latin1')
         return gpd
