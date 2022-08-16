@@ -21,3 +21,4 @@ game.path
 dist/
 build/
 *.spec
+hidden-*.txt

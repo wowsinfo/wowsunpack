@@ -49,6 +49,12 @@ class WoWsUnpack:
         os.system(self._wowsunpack(list=True) + ' > contents.txt')
         print("done writing content list")
 
+    def getListOf(self, filetype: str):
+        """
+        Get a list of files of a certain type
+        """
+        os.system(self._wowsunpack(list=True) + ' -I *.' + filetype + ' > hidden-' + filetype + '.txt')
+
     def unpackGameParams(self):
         """
         Unpacks *.data from the bin folder
@@ -73,8 +79,15 @@ class WoWsUnpack:
         """
         Unpack game icons from the bin folder
         """
-        os.system(self._wowsunpack() + ' -I gui/*.png')
+        os.system(self._wowsunpack() + ' -I gui/*.png gui/*.jpg')
         print("done unpacking game icons")
+
+    def unpackGameGUI(self):
+        """
+        Unpack game GUI from the bin folder
+        """
+        os.system(self._wowsunpack() + ' -I gui/*')
+        print("done unpacking game GUI")
 
     def unpackGameMaps(self):
         """
