@@ -12,6 +12,7 @@ langs/
 gui/
 spaces/
 assets/
+crashes/
 
 # environment
 .env/

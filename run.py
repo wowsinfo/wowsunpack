@@ -36,9 +36,7 @@ if __name__ == "__main__":
         with open('game.path', 'r') as f:
             path = f.read().strip()
         unpack = WoWsUnpack(path)
-        # unpack.unpackGameGUI()
-        unpack.getListOf('swf')
-        exit(0)
+        unpack.unpackGameGUI()
 
         try:
             unpack.unpackGameParams()

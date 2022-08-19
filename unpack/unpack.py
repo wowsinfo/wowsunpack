@@ -40,7 +40,7 @@ class WoWsUnpack:
         latest_bin = self._findLatestBinFolder()
         print("Latest bin folder: " + latest_bin)
         flag = '-l' if list else '-x'
-        return '{} {} {}/bin/{}/idx -p ../../../res_packages'.format(self._unpack_path, flag, self.path, latest_bin)
+        return '{} {} "{}/bin/{}/idx" -p ../../../res_packages'.format(self._unpack_path, flag, self.path, latest_bin)
 
     def writeContentList(self):
         """
