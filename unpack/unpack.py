@@ -55,6 +55,13 @@ class WoWsUnpack:
         """
         os.system(self._wowsunpack(list=True) + ' -I *.' + filetype + ' > hidden-' + filetype + '.txt')
 
+    def search(self, query: str):
+        """
+        Search anything with the given query
+        """
+        os.system(self._wowsunpack(list=True) + ' -I ' + query + ' > search.txt')
+        print("done searching")
+
     def unpackGameParams(self):
         """
         Unpacks *.data from the bin folder
