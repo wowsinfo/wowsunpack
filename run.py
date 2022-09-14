@@ -1,6 +1,5 @@
 import os
 import sys
-from unpack import WoWsUnpack
 import traceback
 
 def exit_program(code: int):

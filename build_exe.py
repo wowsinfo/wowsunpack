@@ -11,7 +11,7 @@ def _resetDir(dirname: str):
     os.mkdir(dirname)
 
 if __name__ == '__main__':
-    os.system(r'pyinstaller --onefile .\run.py --add-data wowsunpack.exe;. -p .\unpack')
+    os.system(r'pyinstaller --onefile .\run.py --add-data wowsunpack.exe;. -p .\lib')
     _resetDir('dist\WoWsUnpack')
     # shutil.copy('wowsunpack.exe', 'dist\WoWsUnpack\wowsunpack.exe')
     # copy LICENSE and README.md as well

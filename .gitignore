@@ -24,3 +24,6 @@ build/
 *.spec
 hidden-*.txt
 search.txt
+
+# setup.cfg
+*.egg-info/

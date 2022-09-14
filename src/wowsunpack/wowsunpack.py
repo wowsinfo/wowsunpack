@@ -4,16 +4,18 @@ import shutil
 import pathlib
 import os
 import sys
-from WoWsGameParams import WoWsGameParams
 from pathlib import Path
+from src.wowsunpack import WoWsGameParams
 
 class WoWsUnpack:
-    _unpack_path: str = 'wowsunpack.exe'
 
     def __init__(self, path):
         self.path = path
 
-        # fix the path issue for wowsunpack
+        # wowsunpack is under the same folder
+        self._unpack_path = os.path.dirname((__file__)) + '/wowsunpack.exe'
+        print("wowsunpack path: " + self._unpack_path)
+        # fix the path issue for exe mode
         if getattr(sys, 'frozen', False):
             self._unpack_path = str(Path(sys._MEIPASS)) + '/wowsunpack.exe'
             # print("unpack path: " + self._unpack_path)
