@@ -41,6 +41,11 @@ Any other arguments are not valid. The program will exit with error code 1. Call
 - Run `python3 -m build` to build the package, and it will also be placed in `dist/`
   - Install it locally with `pip install wowsunpack --find-links dist`
 
+## Publishing
+- Check with `twine check dist/*`
+- Upload to TestPyPI before publishing it `twine upload -r testpypi dist/*`
+- Publish it with `twine upload dist/*`
+
 ***
 
 # World of Warships GameParams to JSON

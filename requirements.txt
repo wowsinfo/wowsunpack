@@ -1,4 +1,4 @@
-gnu-mo-files
+wowsunpack
 pyinstaller
 build
-wowsunpack
+twine
