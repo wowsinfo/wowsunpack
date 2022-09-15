@@ -3,6 +3,8 @@
 
 Based on [EdibleBug/WoWS-GameParams](https://github.com/EdibleBug/WoWS-GameParams), this fork uses `wowsunpack.exe` to extract `GameParams.data` before unpacking to `GameParams.json`.
 
+`wowsunpack.exe` is provided by [WARGAMING.NET](https://wargaming.com/).
+
 [中文版本](./使用说明.md)
 
 ## Optional features
@@ -34,11 +36,10 @@ Windows may scan `unpack.exe` only for the first time. The binary is built with 
 
 Any other arguments are not valid. The program will exit with error code 1. Call the program like `./unpack.exe --lang` from the terminal. Double clicking will not pass in any arguments.
 
-## Distribution
-- Install `pyinstaller` following [this guide](https://pyinstaller.org/en/stable/index.html)
-- Run `pyinstaller  --onefile .\run.py -p .\unpack\ --hidden-import GameParams`
-- Copy `wowsunpack.exe` to `dist/`
-- Ready to go!
+## Building
+- Run `build_exe.py` to build the binary, and it will be placed in `dist/` ready to go
+- Run `python3 -m build` to build the package, and it will also be placed in `dist/`
+  - Install it locally with `pip install wowsunpack --find-links dist`
 
 ***
 

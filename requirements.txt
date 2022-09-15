@@ -1,3 +1,4 @@
 gnu-mo-files
 pyinstaller
 build
+wowsunpack
