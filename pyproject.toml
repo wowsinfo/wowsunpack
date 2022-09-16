@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "wowsunpack"
-version = "0.1.6"
+version = "0.1.7"
 readme = "README.md"
 authors = [
     {name = "Yiheng Quan", email = "development.henryquan@gmail.com"},

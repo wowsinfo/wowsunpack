@@ -44,6 +44,7 @@ Any other arguments are not valid. The program will exit with error code 1. Call
 ## Publishing
 - Check with `twine check dist/*`
 - Upload to TestPyPI before publishing it `twine upload -r testpypi dist/*`
+  - Install with `pip install wowsunpack -i https://testpypi.python.org/pypi`
 - Publish it with `twine upload dist/*`
 
 ***
