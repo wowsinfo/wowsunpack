@@ -35,6 +35,7 @@ if os.path.exists('game.path'):
     with open('game.path', 'r') as f:
         path = f.read().strip()
     unpack = WoWsUnpack(path)
+    unpack.reset()
 
     try:
         unpack.unpackGameParams()
@@ -53,12 +54,9 @@ if os.path.exists('game.path'):
         if packAssets:
             print("Packing assets...")
             unpack.packAppAssets(output_path='assets/')
-    except FileNotFoundError:
-        print("Make sure the game path is valid. It should look like C:\Games\World_of_Warships")
-        print("\nhttps://github.com/WoWs-Info/wows_gameparams")
-        exit_program(-1)
     except:
         traceback.print_exc()
+        print("\nhttps://github.com/wowsinfo/wowsunpack/issues/new")
         exit_program(-1)
 else:
     with open('game.path', 'w') as f:
@@ -68,5 +66,5 @@ else:
         print("\nhttps://github.com/WoWs-Info/wows_gameparams")
         exit_program(-1)
 
-print("Done unpacking!")
+print("Done unpacking!\n")
 exit_program(0)

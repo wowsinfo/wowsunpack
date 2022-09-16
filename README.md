@@ -39,7 +39,7 @@ Any other arguments are not valid. The program will exit with error code 1. Call
 ## Building
 - Run `build_exe.py` to build the binary, and it will be placed in `dist/` ready to go
 - Run `python3 -m build` to build the package, and it will also be placed in `dist/`
-  - Install it locally with `pip install wowsunpack --find-links dist`
+  - Install it locally with `pip install wowsunpack --find-links=dist`
 
 ## Publishing
 - Check with `twine check dist/*`

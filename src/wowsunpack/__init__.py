@@ -12,6 +12,7 @@ import shutil
 import pathlib
 import os
 import sys
+import subprocess
 from pathlib import Path
 from wowsunpack.params import WoWsGameParams
 
@@ -52,32 +53,53 @@ class WoWsUnpack:
         flag = '-l' if list else '-x'
         return '{} {} "{}/bin/{}/idx" -p ../../../res_packages'.format(self._unpack_path, flag, self.path, latest_bin)
 
+    def _call(self, command: str):
+        """
+        Call wowsunpack.exe and make sure it was successful
+        """
+        p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = p.communicate()
+        output = out.decode('utf-8')
+        if 'ERROR' in output or p.returncode != 0:
+            raise RuntimeError("wowsunpack.exe failed with output: " + output)
+
+    def reset(self): 
+        """
+        Reset previous folders
+        """
+        self._resetDir('content')
+        self._resetDir('gui')
+        self._resetDir('spaces')
+        self._resetDir('langs')
+        self._resetDir('assets')
+        print("done resetting\n")
+
     def writeContentList(self):
         """
         Writes the content list to a file, DEBUG ONLY
         """
-        os.system(self._wowsunpack(list=True) + ' > contents.txt')
-        print("done writing content list")
+        self._call(self._wowsunpack(list=True) + ' > contents.txt')
+        print("done writing content list\n")
 
     def getListOf(self, filetype: str):
         """
         Get a list of files of a certain type
         """
-        os.system(self._wowsunpack(list=True) + ' -I *.' + filetype + ' > hidden-' + filetype + '.txt')
+        self._call(self._wowsunpack(list=True) + ' -I *.' + filetype + ' > hidden-' + filetype + '.txt')
 
     def search(self, query: str):
         """
         Search anything with the given query
         """
-        os.system(self._wowsunpack(list=True) + ' -I ' + query + ' > search.txt')
-        print("done searching")
+        self._call(self._wowsunpack(list=True) + ' -I ' + query + ' > search.txt')
+        print("done searching\n")
 
     def unpackGameParams(self):
         """
         Unpacks *.data from the bin folder
         """
-        os.system(self._wowsunpack() + ' -I content/*.data')
-        print("done unpacking game params")
+        self._call(self._wowsunpack() + ' -I content/*.data')
+        print("done unpacking game params\n")
 
     def decodeGameParams(self):
         """
@@ -88,7 +110,7 @@ class WoWsUnpack:
             gp = WoWsGameParams(data_path)
             print("decoding game params")
             gp.decode()
-            print("done decoding game params")
+            print("done decoding game params\n")
         else:
             raise FileNotFoundError("GameParams.data not found")
 
@@ -96,22 +118,22 @@ class WoWsUnpack:
         """
         Unpack game icons from the bin folder
         """
-        os.system(self._wowsunpack() + ' -I gui/*.png gui/*.jpg')
-        print("done unpacking game icons")
+        self._call(self._wowsunpack() + ' -I gui/*.png -I gui/*.jpg')
+        print("done unpacking game icons\n")
 
     def unpackGameGUI(self):
         """
         Unpack game GUI from the bin folder
         """
-        os.system(self._wowsunpack() + ' -I gui/*')
-        print("done unpacking game GUI")
+        self._call(self._wowsunpack() + ' -I gui/*')
+        print("done unpacking game GUI\n")
 
     def unpackGameMaps(self):
         """
         Unpack game maps from the bin folder
         """
-        os.system(self._wowsunpack() + ' -I spaces/*')
-        print("done unpacking game icons")
+        self._call(self._wowsunpack() + ' -I spaces/*')
+        print("done unpacking game icons\n")
 
     def decodeLanguages(self):
         """
@@ -132,7 +154,7 @@ class WoWsUnpack:
                 json_str = json.dumps(decoded_dict, ensure_ascii=False)
                 outfile.write(json_str)
 
-        print("done decoding languages")
+        print("done decoding languages\n")
 
     def _resetDir(self, dirname: str):
         """
@@ -142,7 +164,7 @@ class WoWsUnpack:
             shutil.rmtree(dirname)
         os.mkdir(dirname)
 
-    def packAppAssets(self, output_path='../app/assets'):
+    def packAppAssets(self, output_path='/app/assets'):
         """
         Packs assets for WoWs Info
         """
@@ -155,7 +177,7 @@ class WoWsUnpack:
         # TODO: code duplication, should be refactored
         # ACHIEVEMENTS
         self._resetDir(output_path + '/achievements')
-        for achievement in os.listdir(gui_path + '/achievements/icons'):
+        for achievement in os.listdir(gui_path + '/achievements'):
             # remove grey icons and two placeholders
             if achievement in ['icon_achievement.png', 'placeholder.png']:
                 continue
@@ -166,7 +188,7 @@ class WoWsUnpack:
                 'icon_achievement_', ''
             )
             shutil.copy(
-                gui_path + '/achievements/icons/' + achievement,
+                gui_path + '/achievements/' + achievement,
                 output_path + '/achievements/' + formatted_name,
             )
 
