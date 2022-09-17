@@ -47,6 +47,15 @@ class WoWsUnpack:
 
         return bin_folders[-1]
 
+    def _validateFolder(self, path: str):
+        """
+        Make sure there are contains in path
+        """
+        if not os.path.exists(path):
+            raise FileNotFoundError("Folder not found: " + path)
+        if len(os.listdir(path)) == 0:
+            raise FileNotFoundError("Folder is empty: " + path)
+
     def _wowsunpack(self, list: bool = False) -> str:
         latest_bin = self._findLatestBinFolder()
         print("Latest bin folder: " + latest_bin)
@@ -71,7 +80,7 @@ class WoWsUnpack:
         self._resetDir('gui')
         self._resetDir('spaces')
         self._resetDir('langs')
-        self._resetDir('assets')
+        self._resetDir('app/assets')
         print("done resetting\n")
 
     def writeContentList(self):
@@ -162,9 +171,9 @@ class WoWsUnpack:
         """
         if os.path.exists(dirname):
             shutil.rmtree(dirname)
-        os.mkdir(dirname)
+        os.makedirs(dirname)
 
-    def packAppAssets(self, output_path='/app/assets'):
+    def packAppAssets(self, output_path='./app/assets'):
         """
         Packs assets for WoWs Info
         """
@@ -191,6 +200,7 @@ class WoWsUnpack:
                 gui_path + '/achievements/' + achievement,
                 output_path + '/achievements/' + formatted_name,
             )
+        self._validateFolder(output_path + '/achievements')
 
         # SHIPS
         self._resetDir(output_path + '/ships')
@@ -202,6 +212,7 @@ class WoWsUnpack:
                 gui_path + '/ship_previews/' + ship,
                 output_path + '/ships/' + ship,
             )
+        self._validateFolder(output_path + '/ships')
 
         # UPGRADES
         self._resetDir(output_path + '/upgrades')
@@ -213,6 +224,7 @@ class WoWsUnpack:
                 gui_path + '/modernization_icons/' + modernization,
                 output_path + '/upgrades/' + formatted_name,
             )
+        self._validateFolder(output_path + '/upgrades')
 
         # FLAGS
         self._resetDir(output_path + '/flags')
@@ -223,6 +235,7 @@ class WoWsUnpack:
                 gui_path + '/signal_flags/' + flag,
                 output_path + '/flags/' + flag,
             )
+        self._validateFolder(output_path + '/flags')
 
         # CAMOUFLAGES
         self._resetDir(output_path + '/camouflages')
@@ -235,6 +248,7 @@ class WoWsUnpack:
                 gui_path + '/exteriors/camouflages/' + camouflage,
                 output_path + '/camouflages/' + camouflage,
             )
+        self._validateFolder(output_path + '/camouflages')
 
         # PERMOFLAGES
         self._resetDir(output_path + '/permoflages')
@@ -245,6 +259,7 @@ class WoWsUnpack:
                 gui_path + '/exteriors/permoflages/' + permoflage,
                 output_path + '/permoflages/' + permoflage,
             )
+        self._validateFolder(output_path + '/permoflages')
 
         # COMMANDER SKILLS
         self._resetDir(output_path + '/skills')
@@ -256,6 +271,7 @@ class WoWsUnpack:
                 gui_path + '/crew_commander/skills/' + skill,
                 output_path + '/skills/' + formatted_name,
             )
+        self._validateFolder(output_path + '/skills')
 
         # CONSUMABLES
         self._resetDir(output_path + '/consumables')
@@ -271,6 +287,7 @@ class WoWsUnpack:
                 gui_path + '/consumables/' + consumable,
                 output_path + '/consumables/' + formatted_name,
             )
+        self._validateFolder(output_path + '/consumables')
 
         # count the overall size of assets
         root_directory = pathlib.Path(output_path)

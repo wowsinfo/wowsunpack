@@ -53,7 +53,7 @@ if os.path.exists('game.path'):
             unpack.decodeLanguages()
         if packAssets:
             print("Packing assets...")
-            unpack.packAppAssets(output_path='assets/')
+            unpack.packAppAssets()
     except:
         traceback.print_exc()
         print("\nhttps://github.com/wowsinfo/wowsunpack/issues/new")
