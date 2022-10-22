@@ -1,4 +1,4 @@
-wowsunpack
+wowsunpack==0.1.7
 pyinstaller
 build
 twine

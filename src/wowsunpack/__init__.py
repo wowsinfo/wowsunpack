@@ -66,7 +66,8 @@ class WoWsUnpack:
         """
         Call wowsunpack.exe and make sure it was successful
         """
-        p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        # set shell to true for the pipe to work (writing to a file)
+        p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
         out, err = p.communicate()
         output = out.decode('utf-8')
         if 'ERROR' in output or p.returncode != 0:
@@ -122,26 +123,33 @@ class WoWsUnpack:
             print("done decoding game params\n")
         else:
             raise FileNotFoundError("GameParams.data not found")
+    
+    def unpack(self, query: str):
+        """
+        Unpack anything with the given query
+        """
+        self._call(self._wowsunpack() + ' -I ' + query)
+        print("done unpacking {}\n".format(query))
 
     def unpackGameIcons(self):
         """
         Unpack game icons from the bin folder
         """
-        self._call(self._wowsunpack() + ' -I gui/*.png -I gui/*.jpg')
+        self.unpack('gui/*.png -I gui/*.jpg')
         print("done unpacking game icons\n")
 
     def unpackGameGUI(self):
         """
         Unpack game GUI from the bin folder
         """
-        self._call(self._wowsunpack() + ' -I gui/*')
+        self.unpack('gui/*')
         print("done unpacking game GUI\n")
 
     def unpackGameMaps(self):
         """
         Unpack game maps from the bin folder
         """
-        self._call(self._wowsunpack() + ' -I spaces/*')
+        self.unpack('spaces/*')
         print("done unpacking game icons\n")
 
     def decodeLanguages(self):
