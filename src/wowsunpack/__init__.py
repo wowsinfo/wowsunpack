@@ -40,10 +40,11 @@ class WoWsUnpack:
         bin_path = "{}/bin".format(self.path)
         bin_folders = os.listdir(bin_path)
         if (len(bin_folders) == 0):
-            raise ValidationError("Nothing inside bin folder")
+            raise FileNotFoundError("No bin folders found in: " + bin_path)
         # remove all files in bin folder and make sure folders are all numbers
         bin_folders = [f for f in bin_folders if os.path.isdir(bin_path + '/' + f) and f.isdigit()]
-        bin_folders.sort()
+        # ensure to compare as integers but by string
+        bin_folders.sort(key=int)
 
         return bin_folders[-1]
 
