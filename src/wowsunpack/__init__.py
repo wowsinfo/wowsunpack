@@ -214,7 +214,7 @@ class WoWsUnpack:
         # SHIPS
         self._resetDir(output_path + '/ships')
         for ship in os.listdir(gui_path + '/ship_previews'):
-            if ship == 'placeholder.png':
+            if ship == 'placeholder.png' and not ship.endswith('.png'):
                 continue
 
             shutil.copy(
