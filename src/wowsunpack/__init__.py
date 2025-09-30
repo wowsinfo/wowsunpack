@@ -213,12 +213,17 @@ class WoWsUnpack:
 
         # SHIPS
         self._resetDir(output_path + '/ships')
-        for ship in os.listdir(gui_path + '/ship_previews'):
+        ship_previews_path = gui_path + '/ship_previews'
+        for ship in os.listdir(ship_previews_path):
+            ship_path = os.path.join(ship_previews_path, ship)
+            # Skip if not a file (e.g., skip directories like 'medium')
+            if not os.path.isfile(ship_path):
+                continue
             if ship == 'placeholder.png' and not ship.endswith('.png'):
                 continue
 
             shutil.copy(
-                gui_path + '/ship_previews/' + ship,
+                ship_path,
                 output_path + '/ships/' + ship,
             )
         self._validateFolder(output_path + '/ships')
