@@ -12,6 +12,44 @@ Based on [EdibleBug/WoWS-GameParams](https://github.com/EdibleBug/WoWS-GameParam
 - Unpack game maps
 - Unpack game icons
 - Pack game assets
+- **NEW**: Selective unpacking for improved performance
+
+## Selective Unpacking (Performance Improvement)
+
+The new `unpack_folder()` method allows you to selectively unpack specific folders or files, significantly improving performance by avoiding unnecessary extraction:
+
+```python
+from wowsunpack import WoWsUnpack
+
+unpacker = WoWsUnpack('C:/Games/World_of_Warships')
+
+# Unpack only achievement icons (instead of all GUI)
+unpacker.unpack_folder('gui/achievements', '*.png')
+
+# Unpack only game parameters
+unpacker.unpack_folder('content', '*.data')
+
+# Unpack all GUI files
+unpacker.unpack_folder('gui')
+
+# Unpack with exclusions
+unpacker.unpack_folder('gui/consumables', '*.png', exclude_patterns=['*_empty.png'])
+```
+
+### Performance Benefits
+- Extract only what you need instead of unpacking everything
+- Faster execution for automation and CI/CD pipelines
+- Reduced disk I/O and storage requirements
+- Ideal for selective data extraction
+
+### API Method Signature
+```python
+def unpack_folder(
+    folder_path: str,              # Folder to unpack (e.g., 'gui', 'content')
+    file_pattern: str = '*',       # File pattern (e.g., '*.png', '*.data')
+    exclude_patterns: Optional[List[str]] = None  # Patterns to exclude
+) -> None
+```
 
 ## Setup
 - Use Python 3 and `python3 -m venv .env` to create a virtual environment
