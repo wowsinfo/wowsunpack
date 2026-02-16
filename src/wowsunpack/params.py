@@ -7,6 +7,7 @@ import sys
 import shutil
 from concurrent.futures import ThreadPoolExecutor
 from types import ModuleType
+from typing import Any, Dict, Tuple
 
 
 # Add GameParams module to sys.modules
@@ -34,11 +35,25 @@ class WoWsGameParams:
     def __init__(self, path: str):
         self.path = path
 
-    def _mkdir(self, directory: str):
+    def _mkdir(self, directory: str) -> None:
+        """
+        Create a directory if it doesn't exist.
+        
+        Args:
+            directory: Path to the directory to create
+        """
         if not os.path.exists(directory):
             os.makedirs(directory)
 
-    def _writejson(self, _key, _value, index):
+    def _writejson(self, _key: str, _value: Any, index: str) -> None:
+        """
+        Write a JSON file for a game parameter.
+        
+        Args:
+            _key: The key name for the parameter
+            _value: The value to write
+            index: The index/subdirectory for organization
+        """
         # Be resilient if typeinfo/type is missing
         try:
             t = _value.get('typeinfo', {}).get('type', 'UnknownType')
@@ -54,10 +69,13 @@ class WoWsGameParams:
         with open(os.path.join(typedir, _key + '.json'), 'w', encoding='latin1') as ff:
             json.dump(_value, ff, sort_keys=True, indent=4, separators=(',', ': '))
 
-    def _readRawData(self):
-        '''
-        Reads the raw data from the file and returns it as an object
-        '''
+    def _readRawData(self) -> Any:
+        """
+        Reads the raw data from the file and returns it as an object.
+        
+        Returns:
+            Unpickled game parameters data
+        """
         with open(self.path, 'rb') as f:
             gpd = f.read()
         gpd = struct.pack('B' * len(gpd), *gpd[::-1])
@@ -65,7 +83,18 @@ class WoWsGameParams:
         gpd = pickle.loads(gpd, encoding='latin1')
         return gpd
 
-    def dump_region(self, elem_dict, region_key, filename):
+    def dump_region(self, elem_dict: Any, region_key: str, filename: str) -> bool:
+        """
+        Dump a specific region from the game params to a file.
+        
+        Args:
+            elem_dict: The dictionary containing game parameters
+            region_key: The key of the region to dump
+            filename: Output filename for the JSON file
+            
+        Returns:
+            True if the region was found and dumped, False otherwise
+        """
         if not isinstance(elem_dict, dict):
             return False
         if region_key in elem_dict:
@@ -75,10 +104,11 @@ class WoWsGameParams:
             return True
         return False
 
-    def decode(self):
-        '''
-        Decodes the game params file and writes it to a json file
-        '''
+    def decode(self) -> None:
+        """
+        Decodes the game params file and writes it to a JSON file.
+        Creates GameParams-{index}.json with decoded game parameters.
+        """
         gpd = self._readRawData()
         # Always unwrap the top-level '' key and write its contents directly
         if isinstance(gpd, (list, tuple)):
@@ -93,10 +123,11 @@ class WoWsGameParams:
             with open('GameParams-0.json', 'w', encoding='latin1') as out:
                 json.dump(cleaned, out, ensure_ascii=False, sort_keys=True, indent=4, separators=(',', ': '))
 
-    def split(self):
-        '''
-        Decode the game params file and split it into multiple directories
-        '''
+    def split(self) -> None:
+        """
+        Decode the game params file and split it into multiple directories.
+        Organizes parameters by type into separate JSON files.
+        """
         gpd = self._readRawData()
 
         self._mkdir(self._subdir)

@@ -14,11 +14,21 @@ import os
 import sys
 import subprocess
 from pathlib import Path
+from typing import Optional, List
 from wowsunpack.params import WoWsGameParams
 
 class WoWsUnpack:
 
-    def __init__(self, path):
+    def __init__(self, path: str):
+        """
+        Initialize WoWsUnpack with the game installation path.
+        
+        Args:
+            path: The root path of World of Warships installation
+            
+        Raises:
+            FileNotFoundError: If wowsunpack.exe is not found
+        """
         self.path = path
 
         # wowsunpack is under the same folder
@@ -33,9 +43,15 @@ class WoWsUnpack:
         if not os.path.exists(self._unpack_path):
             raise FileNotFoundError("wowsunpack.exe not found")
 
-    def _findLatestBinFolder(self):
+    def _findLatestBinFolder(self) -> str:
         """
-        Finds the latest folder in the bin folder
+        Finds the latest folder in the bin folder.
+        
+        Returns:
+            The name of the latest bin folder (as a string number)
+            
+        Raises:
+            FileNotFoundError: If no bin folders are found
         """
         bin_path = "{}/bin".format(self.path)
         bin_folders = os.listdir(bin_path)
@@ -48,9 +64,15 @@ class WoWsUnpack:
 
         return bin_folders[-1]
 
-    def _validateFolder(self, path: str):
+    def _validateFolder(self, path: str) -> None:
         """
-        Make sure there are contains in path
+        Make sure there are contents in path.
+        
+        Args:
+            path: The directory path to validate
+            
+        Raises:
+            FileNotFoundError: If the folder doesn't exist or is empty
         """
         if not os.path.exists(path):
             raise FileNotFoundError("Folder not found: " + path)
@@ -63,9 +85,15 @@ class WoWsUnpack:
         flag = '-l' if list else '-x'
         return '{} {} "{}/bin/{}/idx" -p ../../../res_packages'.format(self._unpack_path, flag, self.path, latest_bin)
 
-    def _call(self, command: str):
+    def _call(self, command: str) -> None:
         """
-        Call wowsunpack.exe and make sure it was successful
+        Call wowsunpack.exe and make sure it was successful.
+        
+        Args:
+            command: The command string to execute
+            
+        Raises:
+            RuntimeError: If wowsunpack.exe fails or returns an error
         """
         # set shell to true for the pipe to work (writing to a file)
         p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
@@ -74,9 +102,10 @@ class WoWsUnpack:
         if 'ERROR' in output or p.returncode != 0:
             raise RuntimeError("wowsunpack.exe failed with output: " + output)
 
-    def reset(self): 
+    def reset(self) -> None: 
         """
-        Reset previous folders
+        Reset previous folders by removing and recreating them.
+        This clears content, gui, spaces, langs, and app/assets directories.
         """
         self._resetDir('content')
         self._resetDir('gui')
@@ -85,36 +114,46 @@ class WoWsUnpack:
         self._resetDir('app/assets')
         print("done resetting\n")
 
-    def writeContentList(self):
+    def writeContentList(self) -> None:
         """
-        Writes the content list to a file, DEBUG ONLY
+        Writes the content list to a file. DEBUG ONLY.
+        Creates a contents.txt file with all available files in the game archive.
         """
         self._call(self._wowsunpack(list=True) + ' > contents.txt')
         print("done writing content list\n")
 
-    def getListOf(self, filetype: str):
+    def getListOf(self, filetype: str) -> None:
         """
-        Get a list of files of a certain type
+        Get a list of files of a certain type.
+        
+        Args:
+            filetype: The file extension to search for (e.g., 'png', 'data')
         """
         self._call(self._wowsunpack(list=True) + ' -I *.' + filetype + ' > hidden-' + filetype + '.txt')
 
-    def search(self, query: str):
+    def search(self, query: str) -> None:
         """
-        Search anything with the given query
+        Search anything with the given query and save results to search.txt.
+        
+        Args:
+            query: Search pattern (supports wildcards like *.png or folder/*)
         """
         self._call(self._wowsunpack(list=True) + ' -I ' + query + ' > search.txt')
         print("done searching\n")
 
-    def unpackGameParams(self):
+    def unpackGameParams(self) -> None:
         """
-        Unpacks *.data from the bin folder
+        Unpacks *.data files from the bin folder (mainly GameParams.data).
         """
         self._call(self._wowsunpack() + ' -I content/*.data')
         print("done unpacking game params\n")
 
-    def decodeGameParams(self):
+    def decodeGameParams(self) -> None:
         """
-        Decodes GameParams.data from content folder
+        Decodes GameParams.data from content folder to JSON format.
+        
+        Raises:
+            FileNotFoundError: If GameParams.data is not found in content folder
         """
         data_path = 'content/GameParams.data'
         if os.path.exists(data_path):
@@ -125,37 +164,92 @@ class WoWsUnpack:
         else:
             raise FileNotFoundError("GameParams.data not found")
     
-    def unpack(self, query: str):
+    def unpack(self, query: str) -> None:
         """
-        Unpack anything with the given query
+        Unpack files matching the given query pattern.
+        This is a generic unpacking method that can extract any files from the game archive.
+        
+        Args:
+            query: Pattern to match files (supports wildcards)
+                   Examples:
+                   - 'gui/*.png' - All PNG files in gui folder
+                   - 'content/*.data' - All data files in content folder
+                   - 'spaces/*' - Everything in spaces folder
+                   - 'gui/*.png -I gui/*.jpg' - Multiple patterns
+        
+        Example:
+            >>> unpacker = WoWsUnpack('C:/Games/World_of_Warships')
+            >>> unpacker.unpack('gui/achievements/*.png')  # Unpack only achievement icons
+            >>> unpacker.unpack('content/GameParams.data')  # Unpack specific file
         """
         self._call(self._wowsunpack() + ' -I ' + query)
         print("done unpacking {}\n".format(query))
 
-    def unpackGameIcons(self):
+    def unpack_folder(self, folder_path: str, file_pattern: str = '*', exclude_patterns: Optional[List[str]] = None) -> None:
         """
-        Unpack game icons from the bin folder
+        Unpack a specific folder or selective files from the game archive.
+        This is a high-level method for selective unpacking to improve performance.
+        
+        Args:
+            folder_path: The folder path to unpack (e.g., 'gui', 'content', 'spaces', 'gui/achievements')
+            file_pattern: File pattern to match within the folder (default: '*' for all files)
+                         Examples: '*.png', '*.data', 'icon_*', etc.
+            exclude_patterns: Optional list of patterns to exclude
+        
+        Example:
+            >>> unpacker = WoWsUnpack('C:/Games/World_of_Warships')
+            >>> # Unpack only achievement icons
+            >>> unpacker.unpack_folder('gui/achievements', '*.png')
+            >>> 
+            >>> # Unpack all GUI files
+            >>> unpacker.unpack_folder('gui')
+            >>> 
+            >>> # Unpack only game params
+            >>> unpacker.unpack_folder('content', '*.data')
+            >>> 
+            >>> # Unpack PNG files but exclude specific ones
+            >>> unpacker.unpack_folder('gui/consumables', '*.png', exclude_patterns=['*_empty.png'])
+        """
+        # Normalize folder path (remove leading/trailing slashes)
+        folder_path = folder_path.strip('/')
+        
+        # Build the query pattern
+        query = f"{folder_path}/{file_pattern}"
+        
+        # Add exclude patterns if provided
+        if exclude_patterns:
+            for exclude in exclude_patterns:
+                query += f" -E {folder_path}/{exclude}"
+        
+        print(f"Unpacking from folder: {folder_path} with pattern: {file_pattern}")
+        self._call(self._wowsunpack() + ' -I ' + query)
+        print(f"done unpacking from {folder_path}\n")
+
+    def unpackGameIcons(self) -> None:
+        """
+        Unpack game icons (PNG and JPG files) from the gui folder.
         """
         self.unpack('gui/*.png -I gui/*.jpg')
         print("done unpacking game icons\n")
 
-    def unpackGameGUI(self):
+    def unpackGameGUI(self) -> None:
         """
-        Unpack game GUI from the bin folder
+        Unpack all game GUI files from the gui folder.
         """
         self.unpack('gui/*')
         print("done unpacking game GUI\n")
 
-    def unpackGameMaps(self):
+    def unpackGameMaps(self) -> None:
         """
-        Unpack game maps from the bin folder
+        Unpack game maps from the spaces folder.
         """
         self.unpack('spaces/*')
-        print("done unpacking game icons\n")
+        print("done unpacking game maps\n")
 
-    def decodeLanguages(self):
+    def decodeLanguages(self) -> None:
         """
-        Decodes the language from global.mo
+        Decodes language files from global.mo to JSON format.
+        Processes all available language folders and outputs them to langs/ directory.
         """
         latest_bin = self._findLatestBinFolder()
         language_folder = '{}\\bin\\{}\\res\\texts'.format(
@@ -174,17 +268,27 @@ class WoWsUnpack:
 
         print("done decoding languages\n")
 
-    def _resetDir(self, dirname: str):
+    def _resetDir(self, dirname: str) -> None:
         """
         Removes a directory if it exists and creates a new one.
+        
+        Args:
+            dirname: Name of the directory to reset
         """
         if os.path.exists(dirname):
             shutil.rmtree(dirname)
         os.makedirs(dirname)
 
-    def packAppAssets(self, output_path='./app/assets'):
+    def packAppAssets(self, output_path: str = './app/assets') -> None:
         """
-        Packs assets for WoWs Info
+        Packs assets for WoWs Info application.
+        Extracts and organizes game assets into categorized folders.
+        
+        Args:
+            output_path: Output directory for packed assets (default: './app/assets')
+            
+        Raises:
+            FileNotFoundError: If gui folder is not found or required folders are empty
         """
         gui_path = 'gui'
         # TODO: to be updated when finalised
